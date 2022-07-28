@@ -3,11 +3,20 @@ import '../styles/App.scss';
 
 function App() {
   const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const [lastLetter, setLastLetter] = useState('');
 
-  const handleClick = (ev) =>{
+  const handleClick = (ev) => {
     ev.preventDefault();
-    setNumberOfErrors(numberOfErrors +1)
-  }
+    setNumberOfErrors(numberOfErrors + 1);
+  };
+
+  const handleLetter = (ev) => {
+    ev.preventDefault();
+    setLastLetter(ev.currentTarget.value);
+    if (ev.currentTarget.value === '[a-zA-Z]{1}') {
+      setLastLetter('');
+    }
+  };
 
   return (
     <div className="page">
@@ -52,6 +61,9 @@ function App() {
               type="text"
               name="last-letter"
               id="last-letter"
+              value={lastLetter}
+              pattern="[a-zA-Z]{1}"
+              onChange={handleLetter}
             />
             <button onClick={handleClick}>Incrementar</button>
           </form>
