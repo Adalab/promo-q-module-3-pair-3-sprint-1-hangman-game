@@ -2,8 +2,13 @@ import { useState } from 'react';
 import '../styles/App.scss';
 
 function App() {
+
+//Variables de estado
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState('');
+  const [word, setWord] = useState('katakroker');
+
+//funciones manejadoras
 
   const handleClick = (ev) => {
     ev.preventDefault();
@@ -13,10 +18,22 @@ function App() {
   const handleLetter = (ev) => {
     ev.preventDefault();
     setLastLetter(ev.currentTarget.value);
-    if (ev.currentTarget.value === '[a-zA-Z]{1}') {
+    if (ev.currentTarget.value.search(/[a-zñA-ZÑÁÉÍÓÚáéíóú]/) === -1) {
       setLastLetter('');
     }
   };
+
+  //Renderizar cositas
+
+  const renderSolutionLetters = () => {
+    const wordLetters = word.split('');
+    const wordLettersResult =  wordLetters.map (
+        (letter)=> <li className="letter">{letter}</li>)
+        return wordLettersResult
+    }
+
+
+  //Pintado del HTML
 
   return (
     <div className="page">
@@ -28,16 +45,7 @@ function App() {
           <div className="solution">
             <h2 className="title">Solución:</h2>
             <ul className="letters">
-              <li className="letter">k</li>
-              <li className="letter">a</li>
-              <li className="letter"></li>
-              <li className="letter">a</li>
-              <li className="letter">k</li>
-              <li className="letter">r</li>
-              <li className="letter"></li>
-              <li className="letter">k</li>
-              <li className="letter">e</li>
-              <li className="letter">r</li>
+              {renderSolutionLetters()}
             </ul>
           </div>
           <div className="error">
@@ -62,7 +70,6 @@ function App() {
               name="last-letter"
               id="last-letter"
               value={lastLetter}
-              pattern="[a-zA-Z]{1}"
               onChange={handleLetter}
             />
             <button onClick={handleClick}>Incrementar</button>
